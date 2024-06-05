@@ -7,10 +7,11 @@ import {
 import Root from "./routes/root";
 import './index.css'
 import ErrorPage from './error-page';
-import Home from './routes/Home';
+import Home , { loader as homeLoader } from './routes/Home';
 import Movies from './routes/Movies';
 import About from './routes/About';
 import Contact from './routes/Contact';
+import Movie, { loader as movieLoader } from './routes/movie';
 
 const router = createBrowserRouter([
   {
@@ -19,16 +20,18 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/home",
+        path: "/",
         element: <Home />,
+        loader: homeLoader
       },
       {
         path: "/movies",
         element: <Movies />,
       },   
       {
-        path: "/Movies/:MovieId",
-        element: <Movies />,
+        path: "/movies/:movieId",
+        element: <Movie />,
+        loader: movieLoader
       },
       {
         path: "/contact",
