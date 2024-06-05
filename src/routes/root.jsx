@@ -4,7 +4,7 @@ import { Link, Outlet } from 'react-router-dom'
 function Root() {
   return (
     <div>
-        <header className=' bg-indigo-700  flex justify-between items-center p-8'>
+        <header className=' bg-emerald-900 flex justify-between items-center p-8'>
             <Link to="#" className='text-white text-xl font-semibold' >MovieMania</Link>
             <nav>
                 <ul className='flex items-center gap-4'>

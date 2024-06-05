@@ -21,11 +21,12 @@ const Movie = () => {
         />
         <div className="flex flex-col gap-5">
           <h2 className="text-3xl font-semibold">{movie.title}</h2>
+          <h4 className="text-xl font-semibold">{movie.language}</h4>
           <p>
             {movie.description}
           </p>
           <Link to={"#"}>
-            <button className="button">Book Now</button>
+            <button className="button w-full">Book Now</button>
           </Link>
         </div>
       </section>
