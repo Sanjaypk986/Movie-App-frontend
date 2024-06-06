@@ -18,7 +18,7 @@ function Root() {
                         <Link to="./Contact" className='text-white' >Contact</Link>
                     </li>
                     <li>
-                        <Link to="./About" className='text-white' >About</Link>
+                        <Link to="./account" className='text-white' >SignUp</Link>
                     </li>
                 </ul>
             </nav>

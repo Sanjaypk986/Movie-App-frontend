@@ -9,9 +9,9 @@ import './index.css'
 import ErrorPage from './error-page';
 import Home , { loader as homeLoader } from './routes/Home';
 import Movies from './routes/Movies';
-import About from './routes/About';
 import Contact from './routes/Contact';
 import Movie, { loader as movieLoader } from './routes/movie';
+import Account from './routes/Account';
 
 const router = createBrowserRouter([
   {
@@ -38,8 +38,8 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/account",
+        element: <Account />,
       },
     ],
   },
