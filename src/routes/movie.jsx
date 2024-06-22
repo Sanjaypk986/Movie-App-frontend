@@ -1,16 +1,22 @@
 import axios from "axios";
 import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
+import ReviewCard from "./components/reviewCard";
+import ReviewForm from "./components/reviewForm";
 
 
 export async function loader({params}) {
     const response = await axios.get(`http://localhost:3000/movies/${params.movieId}`);
     const movie = response.data;
-    return { movie };
+
+    const verifyResponse = await axios.get('http://localhost:3000/auth/verify',{withCredentials:true});
+    const isLoggedIn = verifyResponse.data.verified
+
+    return { movie , isLoggedIn};
   }
 
 const Movie = () => {
-    const {movie} = useLoaderData()
+    const {movie,isLoggedIn} = useLoaderData()
   return (
     <main className="container mx-auto">
       <section className="grid grid-cols-2 justify-center items-center py-6">
@@ -30,6 +36,15 @@ const Movie = () => {
           </Link>
         </div>
       </section>
+      <section className="my-5">
+        <h3 className="text-center text-3xl my-2 font-semibold">Reviews</h3>
+        {isLoggedIn && <ReviewForm />}
+        <ReviewCard />
+        <ReviewCard />
+        <ReviewCard />
+        <ReviewCard />
+      </section>
+      
     </main>
   );
 };

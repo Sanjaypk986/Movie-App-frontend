@@ -25,3 +25,12 @@ object-fit: cover;
   height: 500px;
   border-radius: 8px;
 }
+
+/* sigup */
+form span{
+  color: red;
+}
+form input {
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
