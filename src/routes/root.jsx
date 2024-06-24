@@ -1,26 +1,32 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, Outlet} from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet } from "react-router-dom";
+import { changeLogginStatus } from "../features/login/loginSlice";
 
 function Root() {
-  const[isLoggedIn,setLoggedIn] = useState(false)
+  const loggedIn = useSelector((state) => state.login.loggedIn);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/verify', { withCredentials: true });
+        const response = await axios.get("http://localhost:3000/auth/verify", {
+          withCredentials: true,
+        });
         const isLoggedIn = response.data.verified;
-        setLoggedIn(isLoggedIn);
+        dispatch(changeLogginStatus(isLoggedIn));  // Use the actual verification status
       } catch (error) {
-        setLoggedIn(false);
+        dispatch(changeLogginStatus(false));
       }
     };
 
     verifyUser();
-  }, []);
+  }, []); 
 
   return (
     <div>
-      <header className=" bg-emerald-900 flex justify-between items-center p-8">
+      <header className="bg-emerald-900 flex justify-between items-center p-8">
         <Link to="#" className="text-white text-xl font-semibold">
           MovieMania
         </Link>
@@ -46,21 +52,24 @@ function Root() {
                 SignUp
               </Link>
             </li>
-           {
-            isLoggedIn ? <li>
-            <Link to="./logout" className='text-white' >Log Out</Link>
-        </li>
-        :<li>
-        <Link to="./login" className='text-white' >Log In</Link>
-    </li>
-           }
+            {loggedIn ? (
+              <li>
+                <Link to="./logout" className="text-white">
+                  Log Out
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="./login" className="text-white">
+                  Log In
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
       <Outlet />
-      <footer>
-        
-      </footer>
+      <footer></footer>
     </div>
   );
 }

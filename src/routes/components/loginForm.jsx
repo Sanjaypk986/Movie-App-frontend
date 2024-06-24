@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useForm } from "react-hook-form"
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { changeLogginStatus } from "../../features/login/loginSlice";
 
 
 export default function LoginForm () {
+  const dispatch = useDispatch(); 
   const {
     register,
     handleSubmit,
@@ -15,9 +18,12 @@ export default function LoginForm () {
   const onSubmit = (data) => {
     axios.post("http://localhost:3000/auth/login", data,{withCredentials:true})
     .then((response) => {
+      dispatch(changeLogginStatus(true))
       navigate('/');
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      dispatch(changeLogginStatus(true))
+      console.log(error)});
   };
 
 
