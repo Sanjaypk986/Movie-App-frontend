@@ -1,19 +1,23 @@
 import axios from "axios";
-import React from "react";
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet} from "react-router-dom";
 
-export async function loader() {
-    try {
-        const verifyResponse = await axios.get('http://localhost:3000/auth/verify',{withCredentials:true});
-        const isLoggedIn = verifyResponse.data.verified
-      return { isLoggedIn};
-    } catch (error) {
-      console.error('Verification failed:', error);
-      return ;
-    }
-  }
 function Root() {
-  const { isLoggedIn } = useLoaderData();
+  const[isLoggedIn,setLoggedIn] = useState(false)
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/auth/verify', { withCredentials: true });
+        const isLoggedIn = response.data.verified;
+        setLoggedIn(isLoggedIn);
+      } catch (error) {
+        setLoggedIn(false);
+      }
+    };
+
+    verifyUser();
+  }, []);
+
   return (
     <div>
       <header className=" bg-emerald-900 flex justify-between items-center p-8">
