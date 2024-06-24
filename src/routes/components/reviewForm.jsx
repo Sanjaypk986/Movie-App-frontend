@@ -9,34 +9,40 @@ export default function ReviewForm() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    axios
-      .post("http://localhost:3000/auth/login", data, {withCredentials: true})
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/reviews", data, { withCredentials: true });
+      console.log('Response:', response);
+    } catch (error) {
+      console.error('Error:', error.response ? error.response.data : error.message);
+    }
   };
 
-  console.log(watch("example")); // watch input value by passing the name of it
+  console.log(watch("title")); // Watch input value by passing the name of it
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col w-1/2 mx-auto"
     >
-      {/* register your input into the hook by invoking the "register" function */}
-      <textarea rows={10}
+      <label htmlFor="title">Title</label>
+      <input
         type="text"
         className="border-2 p-2 mb-2"
-        {...register("review", {
-          required: true, maxLength:50
-        })}
+        {...register("title", { required: true })}
       />
+      {errors.title && <span>Invalid title</span>}
+      
+      <label htmlFor="description">Description</label>
+      <textarea
+        rows={10}
+        type="text"
+        className="border-2 p-2 mb-2"
+        {...register("description", { required: true})}
+      />
+      {errors.description && <span>Invalid description</span>}
 
-
-      <input type="submit" value={"Add Review"} />
+      <input className="border bg-blue-400 w-1/2 mx-auto my-3" type="submit" value={"Add Review"} />
     </form>
   );
 }

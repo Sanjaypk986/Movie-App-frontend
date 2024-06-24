@@ -1,8 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import ReviewCard from "./components/reviewCard";
 import ReviewForm from "./components/reviewForm";
+
 
 
 export async function loader({params}) {
@@ -16,6 +17,14 @@ export async function loader({params}) {
   }
 
 const Movie = () => {
+  const[reviews,setReviews] = useState([])
+  useEffect(() => {
+    axios.get('http://localhost:3000/reviews')
+    .then((response)=>{
+      setReviews(response.data)
+    })
+  }, [])
+  
     const {movie,isLoggedIn} = useLoaderData()
   return (
     <main className="container mx-auto">
@@ -38,11 +47,15 @@ const Movie = () => {
       </section>
       <section className="my-5">
         <h3 className="text-center text-3xl my-2 font-semibold">Reviews</h3>
-        {isLoggedIn && <ReviewForm />}
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
+        {
+          isLoggedIn && <ReviewForm />
+        }
+        {
+          reviews.map((review)=>(
+            <ReviewCard key={review._id} review={review} />
+          ))
+        }
+        
       </section>
       
     </main>
