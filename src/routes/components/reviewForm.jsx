@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { addOneReview } from "../../features/review/reviewSlice";
 
-export default function ReviewForm() {
+export default function ReviewForm({movieId}) {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -10,15 +13,17 @@ export default function ReviewForm() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const payload = {
+      ...data, movie : movieId
+    }
     try {
-      const response = await axios.post("http://localhost:3000/reviews", data, { withCredentials: true });
+      const response = await axios.post("http://localhost:3000/reviews", payload, { withCredentials: true });
       console.log('Response:', response);
+      dispatch(addOneReview(response.data))
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
     }
   };
-
-  console.log(watch("title")); // Watch input value by passing the name of it
 
   return (
     <form
