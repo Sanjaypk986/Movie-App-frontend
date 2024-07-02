@@ -19,7 +19,7 @@ const Movie = () => {
   const reviews = useSelector(state=> state.review.reviews)
   const dispath = useDispatch()
   useEffect(() => {
-    axios.get("http://localhost:3000/reviews").then((response) => {
+    axios.get(`http://localhost:3000/reviews?movie=${movie._id}`).then((response) => {
       dispath(addReview(response.data))
     });
   }, []);
