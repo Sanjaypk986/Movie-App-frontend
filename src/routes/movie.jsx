@@ -24,7 +24,6 @@ const Movie = () => {
     });
   }, []);
   const loggedIn = useSelector((state) => state.login.loggedIn);
-  console.log(loggedIn);
   const { movie } = useLoaderData();
   return (
     <main className="container mx-auto">
